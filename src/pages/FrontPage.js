@@ -7,6 +7,7 @@ import './FrontPage.scss'
 
 const FrontPage = () => {
     const history = useHistory()
+    
     const [connected, setConnected] = useState(false)
     const [code, setCode] = useState('')
 
@@ -25,7 +26,6 @@ const FrontPage = () => {
             socket.emit('join-room', code)
             socket.off('share-room-code')
             history.push('/lobby/createUser')
-            console.log(history)
         })
     }
 
@@ -36,8 +36,8 @@ const FrontPage = () => {
         history.push('/lobby/createUser')
     }
 
-    if(connected) {
-        return (
+    return [
+        connected ?
             <div className='frontPageUiContainer'>
                 <h1>IO</h1>
                 <button onClick={handleSubmitCreateRoom}>Create game</button>
@@ -46,17 +46,16 @@ const FrontPage = () => {
                     type = 'text'
                     placeholder = 'Enter room code' 
                     maxLength = '3'
-                    
+                        
                     value = {code}
                     onChange = {event => setCode(event.target.value.toUpperCase())}
                 />
                 <button onClick={handleSubmitJoinRoom}>Join game</button>
             </div>
-        )
-    }
-    else {
-        return <span>No connection</span>
-    }
+        :
+            <span>No connection</span>
+    ]
+
 }
 
 export default FrontPage

@@ -1,0 +1,39 @@
+.chatContainer {
+    border: 1px solid black;
+    border-radius: 2px;
+
+    .chat {
+        z-index: -1;
+
+        height: 250px;
+        width: 500px;
+        overflow-y: scroll;
+
+        text-align: left;
+
+        border-radius: 2px 2px 0 0;
+
+        .chatMessage {
+            padding: 0 0 0 5px;
+            line-height: 25px;
+
+            &:nth-child(odd) {
+                background-color: rgba(0,0,0,0.02);
+            }
+        }
+    }
+
+    input {
+        width: calc(100% - 5px);
+        height: 30px;
+
+        padding: 0 0 0 5px;
+        border: none;
+        border-top: 1px solid black;
+        border-radius: 0 0 2px 2px;
+
+        &:focus {
+            outline: none;
+        }
+    }
+}

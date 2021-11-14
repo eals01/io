@@ -1,15 +1,18 @@
 import { socket } from '../socket'
 
-import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react'
 
 import './CreateUser.scss'
 
 const CreateUser = () => {
     const history = useHistory()
+    
     const [connected, setConnected] = useState(false)
     const [name, setName] = useState('')
     const [color, setColor] = useState('')
+
+    const canvasRef = useRef()
 
     // request resources
     useEffect(() => {
@@ -17,18 +20,25 @@ const CreateUser = () => {
         socket.on('init-create-user-page', color => {
             setColor(color)
             setConnected(true)
+
+            const context = canvasRef.current.getContext('2d')
+            context.beginPath()
+            context.strokeStyle = color
+            context.lineWidth = 10
+            context.rect(12, 12, 225, 225)
+            context.stroke()
         })
     }, [])
 
     const submitHandler = () => {
-        socket.emit('create-user', {name: name})
-        //history.push('/lobby')
+        socket.emit('create-user', {name: name, image: canvasRef.current.toDataURL()})
+        history.push('/lobby')
     }
 
     if(connected) {
         return (
             <div className='createUserContainer'>
-            <canvas width='250px' height='250px' />
+            <canvas ref={canvasRef} width='250px' height='250px' />
             <input 
                 type = 'text'
                 placeholder = 'Enter name'

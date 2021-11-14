@@ -1,0 +1,41 @@
+.userCircleContainer {
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100vw;
+    height: 800px;
+
+    .userCircle {
+        position: relative;
+
+        div {
+            display: flex;
+            flex-direction: column;
+
+            position: absolute;
+
+            width: 100px;
+            height: 100px;
+
+            transition: transform 1s;
+
+            img {
+                width: 100px;
+                height: 100px;
+            }
+
+            span {
+                text-align: center;
+
+                white-space: nowrap;
+            }
+        }
+    }
+
+    .lobbyCode {
+        position: absolute;
+    }
+}
