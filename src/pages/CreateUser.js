@@ -11,19 +11,21 @@ const CreateUser = () => {
     const [connected, setConnected] = useState(false)
     const [name, setName] = useState('')
     const [color, setColor] = useState('')
+    const [roomCode, setRoomCode] = useState('')
 
     const canvasRef = useRef()
 
     // request resources
     useEffect(() => {
         socket.emit('request-create-user-page')
-        socket.on('init-create-user-page', color => {
-            setColor(color)
+        socket.on('init-create-user-page', values => {
+            setColor(values.color)
+            setRoomCode(values.code)
             setConnected(true)
 
             const context = canvasRef.current.getContext('2d')
             context.beginPath()
-            context.strokeStyle = color
+            context.strokeStyle = values.color
             context.lineWidth = 10
             context.rect(12, 12, 225, 225)
             context.stroke()
@@ -38,17 +40,18 @@ const CreateUser = () => {
     if(connected) {
         return (
             <div className='createUserContainer'>
-            <canvas ref={canvasRef} width='250px' height='250px' />
-            <input 
-                type = 'text'
-                placeholder = 'Enter name'
-                style = {{color: color}}
-                
-                value = {name}
-                onChange = {event => setName(event.target.value.toUpperCase())}
-            />
-            <button onClick={submitHandler}>OK</button>
-        </div>
+                <h4>{roomCode}</h4>
+                <canvas ref={canvasRef} width='250px' height='250px' />
+                <input 
+                    type = 'text'
+                    placeholder = 'Enter name'
+                    style = {{color: color}}
+                    
+                    value = {name}
+                    onChange = {event => setName(event.target.value.toUpperCase())}
+                />
+                <button onClick={submitHandler}>OK</button>
+            </div>
         )
     }
     else {

@@ -11,16 +11,16 @@ const Chat = () => {
     const chatRef = useRef()
 
     useEffect(() => {
+        let isInitiated = false
         socket.on('update-chat', chat => {
             console.log(chat)
             setChat(chat)
             if(Math.ceil(chatRef.current.scrollTop) + chatRef.current.clientHeight + 30 >= chatRef.current.scrollHeight) {
                 chatRef.current.scrollBy(0, 30)
             }
-            // 
-            // bruk denne for å starte på bunn
-            // chatRef.current.scrollTop = chatRef.current.scrollHeight
-            // 
+            if(!isInitiated) {
+                chatRef.current.scrollTop = chatRef.current.scrollHeight
+            }
         })
     }, [])
 
@@ -29,6 +29,7 @@ const Chat = () => {
             if(chatMessage !== '') {
                 socket.emit('send-chat', chatMessage)
                 setChatMessage('')
+                chatRef.current.scrollTop = chatRef.current.scrollHeight
             }
         }
     }
