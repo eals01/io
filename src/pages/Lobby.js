@@ -1,18 +1,20 @@
 import { socket } from '../socket'
 
-import { useHistory } from 'react-router-dom'
+//import { useHistory } from 'react-router-dom'
 import React, { useState, useEffect, useRef } from 'react'
 
 import Chat from '../components/Chat'
+import Admin from '../components/Admin'
 
 import './Lobby.scss'
 
 const Lobby = () => {
-    const history = useHistory()
+    //const history = useHistory()
     
     const [connected, setConnected] = useState(false)
     const [lobbyCode, setLobbyCode] = useState('')
     const [users, setUsers] = useState([])
+    const [admin, setAdmin] = useState(false)
 
     const circleRef = useRef()
 
@@ -26,7 +28,11 @@ const Lobby = () => {
         })
 
         socket.on('update-users', users => {
+            console.log(users)
             setUsers(users)
+            if(users.find(user => {return user.isAdmin === true}).id === socket.id) {
+                setAdmin(true)
+            }
         })
     }, [])
 
@@ -36,7 +42,7 @@ const Lobby = () => {
             let userList = Array.from(circleRef.current.children)
             let corners = userList.length
             let degrees = 360 / corners
-            let radius = 250
+            let radius = 200
 
             let currentDegree = 0
             for(let i in userList) {
@@ -59,10 +65,7 @@ const Lobby = () => {
                     <div ref={circleRef} className='userCircle'>
                         {users.map(user => {
                             return (
-                                //
-                                // lag et key system
-                                //
-                                <div key={String(Math.random())}>
+                                <div>
                                     <img src={user.image} alt='user' />
                                     <span>{user.name}</span>
                                 </div>
@@ -72,6 +75,11 @@ const Lobby = () => {
                 </div>
                 <div className='center'>
                     <Chat />
+                    {admin ? (
+                        <Admin />
+                    ) : (
+                        <React.Fragment />
+                    )}
                 </div>
             </React.Fragment>
         :

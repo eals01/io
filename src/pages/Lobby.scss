@@ -6,7 +6,7 @@
     align-items: center;
 
     width: 100vw;
-    height: 800px;
+    height: 590px;
 
     .userCircle {
         position: relative;
@@ -25,6 +25,8 @@
             img {
                 width: 100px;
                 height: 100px;
+
+                image-rendering: pixelated;
             }
 
             span {
