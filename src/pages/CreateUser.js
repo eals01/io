@@ -1,7 +1,9 @@
 import { socket } from '../socket'
 
 import { useHistory } from 'react-router-dom'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
+
+import Canvas from '../components/Canvas'
 
 import './CreateUser.scss'
 
@@ -10,10 +12,9 @@ const CreateUser = () => {
     
     const [connected, setConnected] = useState(false)
     const [name, setName] = useState('')
+    const [image, setImage] = useState(null)
     const [color, setColor] = useState('')
     const [roomCode, setRoomCode] = useState('')
-
-    const canvasRef = useRef()
 
     // request resources
     useEffect(() => {
@@ -22,26 +23,19 @@ const CreateUser = () => {
             setColor(values.color)
             setRoomCode(values.code)
             setConnected(true)
-
-            const context = canvasRef.current.getContext('2d')
-            context.beginPath()
-            context.strokeStyle = values.color
-            context.lineWidth = 10
-            context.rect(12, 12, 225, 225)
-            context.stroke()
         })
     }, [])
 
     const submitHandler = () => {
-        socket.emit('create-user', {name: name, image: canvasRef.current.toDataURL()})
+        socket.emit('create-user', {name: name, image: image})
         history.push('/lobby')
     }
 
-    if(connected) {
-        return (
+    return [
+        connected ?
             <div className='createUserContainer'>
                 <h4>{roomCode}</h4>
-                <canvas ref={canvasRef} width='250px' height='250px' />
+                <Canvas setimage={setImage} color={color}/>
                 <input 
                     type = 'text'
                     placeholder = 'Enter name'
@@ -52,11 +46,9 @@ const CreateUser = () => {
                 />
                 <button onClick={submitHandler}>OK</button>
             </div>
-        )
-    }
-    else {
-        return <span>No connection to server</span>
-    }
+        :
+        <span>No connection to server</span>
+    ]
 }
 
 export default CreateUser
