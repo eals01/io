@@ -22,18 +22,18 @@ const FrontPage = () => {
     // handle create game
     const handleSubmitCreateRoom = () => {
         socket.emit('create-room')
-        socket.on('share-room-code', code => {
-            socket.emit('join-room', code)
-            socket.off('share-room-code')
-            history.push('/lobby/createUser')
-        })
+        socket.emit('join-room', 'ADM0')
+        history.push('/lobby/createUser')
     }
 
     // handle join game
     const handleSubmitJoinRoom = () => {
-        console.log(code)
-        socket.emit('join-room', code)
-        history.push('/lobby/createUser')
+        if(code.length === 3) {
+            socket.emit('join-room', code) 
+            socket.on('allow-access-room', () => {
+                history.push('/lobby/createUser')
+            })
+        }
     }
 
     return [
