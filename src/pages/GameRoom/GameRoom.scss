@@ -1,0 +1,123 @@
+.table {
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+
+    width: 100vw;
+    height: 100vh;
+
+    &:after {
+        z-index: -1;
+
+        content: ' ';
+        display: block;
+
+        position: absolute;
+        bottom: 0;
+
+        width: 100%;
+        height: 100%;
+
+        background: rgb(129, 107, 81);
+    }
+
+    .stacks {
+        padding: 20px;
+
+        display: flex;
+        justify-content: space-between;
+
+        position: absolute;
+        top: 500px;
+
+        width: 400px;
+
+        background: rgb(172, 151, 112);
+
+        .stack {
+            height: 300px;
+            width: 180px;
+        }
+    
+        .playStack {
+            height: 300px;
+            width: 180px;
+        }
+    }
+
+    .hand {
+        position: absolute;
+        bottom: 50px;
+
+        height: 300px;
+        width: auto;
+
+        transition: .5s;
+
+        //transform: perspective(300px) rotateX(-6deg);
+    }
+
+    .opponentHandLeft {
+        top: 100px;
+        left: 50px;
+
+        height: 300px;
+        width: auto;
+
+        transform: skew(-10deg) rotate(-10deg);
+    }
+
+    .opponentHandTop {
+        top: 50px;
+
+        height: 300px;
+        width: auto;
+    }
+
+    .opponentHandRight {
+        top: 100px;
+        right: 50px;
+
+        height: 300px;
+        width: auto;
+
+        transform: skew(10deg) rotate(10deg);
+    }
+
+    .opponentHand {
+        position: absolute;
+
+        /*&:before {
+            position: absolute;
+            bottom: -50px;
+
+            content: ' ';
+            display: block;
+            
+            width:100%;
+            height: 20px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 50%;
+
+            filter: blur(5px);
+        }*/
+    }
+
+    .shadow {
+        &:after {
+            content: ' ';
+            display: block;
+
+            position: absolute;
+            bottom: -30px;
+
+            width: 100%;
+            height: 10px;
+
+            border-radius: 50%;
+            background: rgba(0,0,0,0.2);
+            filter: blur(5px);
+        }
+    }
+}

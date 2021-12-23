@@ -23,7 +23,7 @@ const FrontPage = () => {
     const handleSubmitCreateRoom = () => {
         socket.emit('create-room')
         socket.emit('join-room', 'ADM0')
-        history.push('/lobby/createUser')
+        history.push('/lobby/create-user')
     }
 
     // handle join game
@@ -31,7 +31,7 @@ const FrontPage = () => {
         if(code.length === 3) {
             socket.emit('join-room', code) 
             socket.on('allow-access-room', () => {
-                history.push('/lobby/createUser')
+                history.push('/lobby/create-user')
             })
         }
     }
