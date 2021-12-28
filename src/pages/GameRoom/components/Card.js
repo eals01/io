@@ -7,59 +7,68 @@ import plusTwo from '../assets/plus_two.svg'
 import plusFour from '../assets/plus_four.svg'
 
 const icons = {
-    'block': block,
-    'reverse': reverse,
-    'swap': swap,
-    '+2': plusTwo,
-    '+4': plusFour
+    'B': block,
+    'R': reverse,
+    '2': plusTwo,
+    '4': plusFour,
+    'S': swap,
+}
+
+const colors = {
+    'R': 'rgb(255, 42, 42)',
+    'Y': 'rgb(255, 204, 0',
+    'B': 'rgb(42, 127, 255)',
+    'G': 'rgb(127, 255, 42)',
+    'X': 'rgb(20,20,20)',
+    'E': 'rgb(100,100,100)',
 }
 
 const Card = props => {
     let cardStyle = {
         position: 'absolute',
-    
-        display: 'flex',
+        display:'flex',
         justifyContent: 'center',
         alignItems: 'center',
-    
         width: '180px',
         height: '300px',
-    
-        borderRadius: '10px'
+        borderRadius: '10px',
+        transition: 'transform 0.1s'
     }
-    cardStyle.background = props.color
+    cardStyle.background = colors[props.value[0]]
 
-    if(props.back) {
+    if(props.value === 'EE') {
         return (
-            <div style={cardStyle} className='card'>
-                <span className='mainNumber'>UNO</span>
+            <div className='card' style={cardStyle}>
+                <span>UNO</span>
             </div>
         )
-    } else if(props.special) {
+    } else if(['B', 'R', 'S'].includes(props.value[1])) {
         return (
-            <div style={cardStyle} className='card'>
-                <img className='topImage' src={icons[props.value]}/>
-                <img src={icons[props.value]}/>
-                <img className='bottomImage' src={icons[props.value]}/>
+            <div className='card' style={cardStyle}>
+                <img className='topImage' src={icons[props.value[1]]} />
+                <img src={icons[props.value[1]]} />
+                <img className='bottomImage' src={icons[props.value[1]]} />
             </div>
         )
-    } else if(props.hSpecial) {
+    } else if(props.value.length === 3) {
         return (
-            <div style={cardStyle} className='card'>
-                <span className='topNumber'>{props.value}</span>
-                <img src={icons[props.value]}/>
-                <span className='bottomNumber'>{props.value}</span>
+            <div className='card' style={cardStyle}>
+                <span className='topNumber'>+{props.value[2]}</span>
+                <img src={icons[props.value[2]]} />
+                <span className='bottomNumber'>+{props.value[2]}</span>
             </div>
         )
     } else {
         return (
-            <div style={cardStyle} className='card'>
-                <span className='topNumber'>{props.value}</span>
-                <span className='mainNumber'>{props.value}</span>
-                <span className='bottomNumber'>{props.value}</span>
+            <div className='card' style={cardStyle}>
+                <span className='topNumber'>{props.value[1]}</span>
+                <span>{props.value[1]}</span>
+                <span className='bottomNumber'>{props.value[1]}</span>
             </div>
         )
     }
+
+    return null
 }
 
 export default Card
