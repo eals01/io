@@ -1,6 +1,6 @@
 import { socket } from '../socket'
 
-//import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import React, { useState, useEffect, useRef } from 'react'
 
 import Chat from '../components/Chat'
@@ -9,6 +9,15 @@ import Admin from '../components/Admin'
 import './Lobby.scss'
 
 const Lobby = () => {
+    const history = useHistory()
+
+    // join game
+    useEffect(() => {
+        socket.on('game-access', () => {
+            history.push('/game-room')
+        })
+    }, [])
+
     //const history = useHistory()
     
     const [connected, setConnected] = useState(false)

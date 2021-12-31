@@ -36,15 +36,21 @@ const Card = props => {
     }
     cardStyle.background = colors[props.value[0]]
 
+    const handleClick = e => {
+        if(props.handleclick != undefined) {
+            props.handleclick(Array.from(props.hand.children).indexOf(e.target))
+        }
+    }
+
     if(props.value === 'EE') {
         return (
-            <div className='card' style={cardStyle}>
+            <div onClick={handleClick} className='card' style={cardStyle}>
                 <span>UNO</span>
             </div>
         )
     } else if(['B', 'R', 'S'].includes(props.value[1])) {
         return (
-            <div className='card' style={cardStyle}>
+            <div onClick={handleClick} className='card' style={cardStyle}>
                 <img className='topImage' src={icons[props.value[1]]} />
                 <img src={icons[props.value[1]]} />
                 <img className='bottomImage' src={icons[props.value[1]]} />
@@ -52,7 +58,7 @@ const Card = props => {
         )
     } else if(props.value.length === 3) {
         return (
-            <div className='card' style={cardStyle}>
+            <div onClick={handleClick} className='card' style={cardStyle}>
                 <span className='topNumber'>+{props.value[2]}</span>
                 <img src={icons[props.value[2]]} />
                 <span className='bottomNumber'>+{props.value[2]}</span>
@@ -60,15 +66,13 @@ const Card = props => {
         )
     } else {
         return (
-            <div className='card' style={cardStyle}>
+            <div onClick={handleClick} className='card' style={cardStyle}>
                 <span className='topNumber'>{props.value[1]}</span>
                 <span>{props.value[1]}</span>
                 <span className='bottomNumber'>{props.value[1]}</span>
             </div>
         )
     }
-
-    return null
 }
 
 export default Card

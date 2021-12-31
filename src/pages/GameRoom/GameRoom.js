@@ -1,39 +1,62 @@
 import { useState, useRef, useEffect } from 'react'
+import { socket } from '../../socket'
 
 import Card from './components/Card'
 
 import './GameRoom.scss'
 
-const stack = [
-    'R0','R1','R1','R2','R2','R3','R3','R4','R4','R5','R5','R6','R6','R7','R7','R8','R8','R9','R9','RB','RB','RR','RR','RP2','RP2',
-    'Y0','Y1','Y1','Y2','Y2','Y3','Y3','Y4','Y4','Y5','Y5','Y6','Y6','Y7','Y7','Y8','Y8','Y9','Y9','YB','YB','YR','YR','YP2','YP2',
-    'G0','G1','G1','G2','G2','G3','G3','G4','G4','G5','G5','G6','G6','G7','G7','G8','G8','G9','G9','GB','GB','GR','GR','GP2','GP2',
-    'B0','B1','B1','B2','B2','B3','B3','B4','B4','B5','B5','B6','B6','B7','B7','B8','B8','B9','B9','BB','BB','BR','BR','BP2','BP2',
-    'XS','XS','XS','XS','XP4','XP4','XP4','XP4'
-]
-
 const GameRoom = () => {
+    useEffect(() => {
+        socket.emit('request-game-room')
+
+        socket.on('update-game', gameState => {
+            console.log(gameState)
+
+            setHand(gameState.hand)
+
+            let newOpponentHand = []
+            for(let i = 0; i < gameState.opponentHands[0]; i++) {
+                newOpponentHand.push(0)
+            }
+            setOpponentHandLeft(newOpponentHand)
+
+            let newOpponentHand2 = []
+            for(let i = 0; i < gameState.opponentHands[1]; i++) {
+                newOpponentHand2.push(0)
+            }
+            setOpponentHandMiddle(newOpponentHand2)
+
+            let newOpponentHand3 = []
+            for(let i = 0; i < gameState.opponentHands[2]; i++) {
+                newOpponentHand3.push(0)
+            }
+            setOpponentHandRight(newOpponentHand3)
+
+            setPlayStack(gameState.playStack)
+
+            let newDrawStack = []
+            for(let i = 0; i < gameState.drawStack; i++) {
+                newDrawStack.push(1)
+            }
+            setDrawStack(newDrawStack)
+        })
+    }, [])
+
     const [hand, setHand] = useState([])
+    const [opponentHandLeft, setOpponentHandLeft] = useState([])
+    const [opponentHandMiddle, setOpponentHandMiddle] = useState([])
+    const [opponentHandRight, setOpponentHandRight] = useState([])
     const [drawStack, setDrawStack] = useState(['EE'])
-    const [playStack, setPlayStack] = useState(['Y5'])
+    const [playStack, setPlayStack] = useState([])
 
     const handRef = useRef()
+    const opponentHandLeftRef = useRef()
+    const opponentHandMiddleRef = useRef()
+    const opponentHandRightRef = useRef()
     const playStackRef = useRef()
     const drawStackRef = useRef()
 
-    const drawCard = () => {
-        const i = Math.floor(Math.random()*drawStack.length)
-        const value = drawStack[i]
-        drawStack.splice(i, 1)
-        return value
-    }
-
-    // initiate draw stack
-    useEffect(() => {
-        setDrawStack(stack)
-    })
-
-    // populate draw stack UI
+    // position draw stack UI
     useEffect(() => {
         let drawStackArray = Array.from(drawStackRef.current.children)
         let difference = 0
@@ -43,7 +66,7 @@ const GameRoom = () => {
         }
     })
 
-    // populate play stack UI
+    // position play stack UI
     useEffect(() => {
         let playStackArray = Array.from(playStackRef.current.children)
         let difference = 0
@@ -53,7 +76,7 @@ const GameRoom = () => {
         }
     })
 
-    // populate hand UI
+    // position hand UI
     useEffect(() => {
         let handArray = Array.from(handRef.current.children)
         let difference = 0
@@ -61,6 +84,7 @@ const GameRoom = () => {
             handArray[i].style.left = difference + 'px'
             difference += 70
 
+            {/*}
             handArray[i].addEventListener('click', () => {
                 let newPlayStack = playStack.slice()
                 newPlayStack.push(hand[i])
@@ -70,29 +94,87 @@ const GameRoom = () => {
                 newHand.splice(i, 1)
                 setHand(newHand)
             })
+            */}
         }
         handRef.current.style.width = 70 * (handArray.length - 1) + 180 + 'px'
-    }, [hand, setHand])
+    }, [hand])
 
-    const handleDraw = () => {
+    // position left opponent hand UI
+    useEffect(() => {
+        let handArray = Array.from(opponentHandLeftRef.current.children)
+        let difference = 0
+        for(let i in handArray) {
+            handArray[i].style.left = difference + 'px'
+            difference += 70
+        }
+        opponentHandLeftRef.current.style.width = 70 * (handArray.length - 1) + 180 + 'px'
+    }, [opponentHandLeft])
+    
+     // position middle opponent hand UI
+     useEffect(() => {
+        let handArray = Array.from(opponentHandMiddleRef.current.children)
+        let difference = 0
+        for(let i in handArray) {
+            handArray[i].style.left = difference + 'px'
+            difference += 70
+        }
+        opponentHandMiddleRef.current.style.width = 70 * (handArray.length - 1) + 180 + 'px'
+    }, [opponentHandMiddle])
+
+     // position right opponent hand UI
+     useEffect(() => {
+        let handArray = Array.from(opponentHandRightRef.current.children)
+        let difference = 0
+        for(let i in handArray) {
+            handArray[i].style.left = difference + 'px'
+            difference += 70
+        }
+        opponentHandRightRef.current.style.width = 70 * (handArray.length - 1) + 180 + 'px'
+    }, [opponentHandRight])
+
+    // handle card click
+    function handleClick(i) {
         let newHand = hand.slice()
-        newHand.push(drawCard())
+        newHand.splice(i, 1)
         setHand(newHand)
+
+        socket.emit('play-card', i)
     }
+
+    // handle draw
+    const handleDraw = () => {
+        socket.emit('request-card')
+    }
+
+
+    useEffect(() => {
+        socket.on('deal-card', card => {
+
+        })
+    }, [])
 
     return (
         <div className='table'>
-            <button onClick={handleDraw}>Draw</button>
+            <button className='drawButton' onClick={handleDraw}>Draw</button>
             <div className='stacks'>
                 <div ref={drawStackRef} className='stack drawStack'>
-                    {stack.map(card => <Card value='EE'/>)}
+                    {drawStack.map(() => <Card value='EE'/>)}
                 </div>
                 <div ref={playStackRef} className='stack playStack'>
                     {playStack.map(card => <Card value={card}/>)}
                 </div>
             </div>
-            <div ref={handRef} className='hand'>
-                {hand.map(card => <Card value={card}/>)}
+            <div ref={opponentHandLeftRef} className='shadow opponentHand opponentHandLeft'>
+                {opponentHandLeft.map(card => <Card value='EE' />)}
+            </div>
+            <div ref={opponentHandMiddleRef} className='shadow opponentHand opponentHandMiddle'>
+                {opponentHandMiddle.map(card => <Card value='EE' />)}
+            </div>
+            <div ref={opponentHandRightRef} className='shadow opponentHand opponentHandRight'>
+                {opponentHandRight.map(card => <Card value='EE' />)}
+            </div>
+            <div ref={handRef} className='shadow hand'>
+                {hand.map(card => <Card value={card} hand={handRef.current} handleclick={handleClick} />)}
             </div>
         </div>
     )
