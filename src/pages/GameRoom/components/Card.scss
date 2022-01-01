@@ -10,7 +10,7 @@
 
     border-radius: 10px;
 
-    transition: 1s;
+    user-select: none;
 
     //box-shadow: 1px 1px 2px 1px rgba(0,0,0,0.2);
 
@@ -26,6 +26,8 @@
         font-weight: 100;
         font-size: 72px;
         line-height: 72px;
+
+        pointer-events: none;
     }
 
     .topNumber {
@@ -34,6 +36,8 @@
 
         font-size: 36px;
         line-height: 36px;
+
+        pointer-events: none;
     }
 
     .bottomNumber {
@@ -42,12 +46,18 @@
 
         font-size: 36px;
         line-height: 36px;
+
+        transform: rotate(180deg);
+
+        pointer-events: none;
     }
 
     img {
         position: absolute;
 
         height: 62px;
+
+        pointer-events: none;
     }
 
     .topImage {
@@ -55,6 +65,8 @@
         left: 20px;
 
         height: 30px;
+
+        pointer-events: none;
     }
 
     .bottomImage {
@@ -62,5 +74,7 @@
         right: 20px;
 
         height: 30px;
+
+        pointer-events: none;
     }
 }

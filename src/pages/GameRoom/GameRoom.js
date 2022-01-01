@@ -10,8 +10,6 @@ const GameRoom = () => {
         socket.emit('request-game-room')
 
         socket.on('update-game', gameState => {
-            console.log(gameState)
-
             setHand(gameState.hand)
 
             let newOpponentHand = []
@@ -48,6 +46,7 @@ const GameRoom = () => {
     const [opponentHandRight, setOpponentHandRight] = useState([])
     const [drawStack, setDrawStack] = useState(['EE'])
     const [playStack, setPlayStack] = useState([])
+    const [degrees, setDegrees] = useState([])
 
     const handRef = useRef()
     const opponentHandLeftRef = useRef()
@@ -62,41 +61,43 @@ const GameRoom = () => {
         let difference = 0
         for(let i in drawStackArray) {
             drawStackArray[i].style.bottom = difference + 'px'
-            difference += .6
+            difference += 1
         }
-    })
+    }, [drawStack])
 
     // position play stack UI
     useEffect(() => {
         let playStackArray = Array.from(playStackRef.current.children)
         let difference = 0
         for(let i in playStackArray) {
+            let newDegrees = degrees.slice()
+            newDegrees.push(Math.floor(Math.random() * 30 - 15))
+            setDegrees(newDegrees)
             playStackArray[i].style.bottom = difference + 'px'
-            difference += .6
+            playStackArray[i].style.transform = `perspective(700px) rotateX(45deg) rotateZ(${degrees[i]}deg)`
+            difference += 1
         }
-    })
+    }, [playStack, setPlayStack])
 
     // position hand UI
     useEffect(() => {
         let handArray = Array.from(handRef.current.children)
         let difference = 0
+        let span = 8
+        let degreeDifference = span / 2 * -1
+        let degreeDifferenceValue = span / handArray.length
         for(let i in handArray) {
-            handArray[i].style.left = difference + 'px'
-            difference += 70
-
-            {/*}
-            handArray[i].addEventListener('click', () => {
-                let newPlayStack = playStack.slice()
-                newPlayStack.push(hand[i])
-                setPlayStack(newPlayStack)
-
-                let newHand = hand.slice()
-                newHand.splice(i, 1)
-                setHand(newHand)
+            handArray[i].style.transform = `translateX(${difference}px) translateY(${Math.pow(- degreeDifference, 2) / 2}px) rotateZ(${degreeDifference}deg)`
+            difference += 60
+            degreeDifference += degreeDifferenceValue
+            handArray[i].addEventListener('mouseover', e => {
+                e.target.style.top = '-30px'
             })
-            */}
+            handArray[i].addEventListener('mouseout', e => {
+                e.target.style.top = '0px'
+            })
         }
-        handRef.current.style.width = 70 * (handArray.length - 1) + 180 + 'px'
+        handRef.current.style.width = 60 * (handArray.length - 1) + 180 + 'px'
     }, [hand])
 
     // position left opponent hand UI

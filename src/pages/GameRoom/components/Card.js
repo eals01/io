@@ -18,9 +18,9 @@ const colors = {
     'R': 'rgb(255, 42, 42)',
     'Y': 'rgb(255, 204, 0',
     'B': 'rgb(42, 127, 255)',
-    'G': 'rgb(127, 255, 42)',
+    'G': 'rgb(127, 200, 42)',
     'X': 'rgb(20,20,20)',
-    'E': 'rgb(100,100,100)',
+    'E': 'rgb(50,50,50)',
 }
 
 const Card = props => {
@@ -32,7 +32,7 @@ const Card = props => {
         width: '180px',
         height: '300px',
         borderRadius: '10px',
-        transition: 'transform 0.1s'
+        transition: 'transform .1s'
     }
     cardStyle.background = colors[props.value[0]]
 
