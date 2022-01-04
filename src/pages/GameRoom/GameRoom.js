@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
 import { socket } from '../../socket'
 
+import Chat from '../../components/Chat'
+import Swap from './components/Swap'
 import Card from './components/Card'
 
 import './GameRoom.scss'
@@ -10,6 +12,8 @@ const GameRoom = () => {
         socket.emit('request-game-room')
 
         socket.on('update-game', gameState => {
+            console.log('her kommern')
+            console.log(gameState)
             setHand(gameState.hand)
 
             let newOpponentHand = []
@@ -135,10 +139,6 @@ const GameRoom = () => {
 
     // handle card click
     function handleClick(i) {
-        let newHand = hand.slice()
-        newHand.splice(i, 1)
-        setHand(newHand)
-
         socket.emit('play-card', i)
     }
 
@@ -146,7 +146,6 @@ const GameRoom = () => {
     const handleDraw = () => {
         socket.emit('request-card')
     }
-
 
     useEffect(() => {
         socket.on('deal-card', card => {
@@ -177,6 +176,8 @@ const GameRoom = () => {
             <div ref={handRef} className='shadow hand'>
                 {hand.map(card => <Card value={card} hand={handRef.current} handleclick={handleClick} />)}
             </div>
+            <Chat />
+            <Swap />
         </div>
     )
 }

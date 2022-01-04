@@ -14,9 +14,9 @@ const Chat = () => {
         let isInitiated = false
         socket.on('update-chat', chat => {
             setChat(chat)
-            if(Math.ceil(chatRef.current.scrollTop) + chatRef.current.clientHeight + 30 >= chatRef.current.scrollHeight) {
+            /*if(Math.ceil(chatRef.current.scrollTop) + chatRef.current.clientHeight + 30 >= chatRef.current.scrollHeight) {
                 chatRef.current.scrollBy(0, 30)
-            }
+            }*/
             if(!isInitiated) {
                 chatRef.current.scrollTop = chatRef.current.scrollHeight
                 isInitiated = true

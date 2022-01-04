@@ -1,0 +1,54 @@
+.swapContainer {
+    display: none;
+
+    top: calc(50% - 220px);
+
+    position: absolute;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    width: 440px;
+    height: 440px;
+
+    .swapContainerBackground {
+        z-index: 10;
+
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+
+        background: rgba(0,0,0,0.7);
+    }
+
+    .swap {
+        z-index: 11;
+
+        width: 220px;
+        height: 220px;
+    }
+
+    .yellow {
+        background: rgb(255, 204, 0);
+        border-top-left-radius: 100%;
+    }
+
+    .blue {
+        background: rgb(42, 127, 255);
+        border-top-right-radius: 100%;
+    }
+
+    .red {
+        background: rgb(255, 42, 42);
+        border-end-start-radius: 100%;
+    }
+
+    .green {
+        background: rgb(127, 200, 42);
+        border-end-end-radius: 100%;
+    }
+}

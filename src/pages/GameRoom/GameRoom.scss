@@ -35,8 +35,6 @@
                 &:first-child {
                     box-shadow: 0px 2px 6px 2px rgba(0,0,0,0.3);
                 }
-
-                //transform: perspective(700px) rotateX(45deg);
             }
         }
 
@@ -45,7 +43,7 @@
 
             .card {
                 box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.3);
-                //transform: perspective(700px) rotateX(45deg) rotateZ(15deg);
+                transform: perspective(700px) rotateX(45deg) rotateZ(15deg);
             }
         }
 
@@ -54,7 +52,6 @@
             
             .card {
                 box-shadow: 0px 3px 2px 1px rgba(0,0,0,0.3);
-                //transform: perspective(700px) rotateX(45deg) rotateZ(15deg);
             }
         }
     }
@@ -94,7 +91,7 @@
         zoom: 0.7;
 
         top: 500px;
-        left: 550px;
+        left: 200px;
 
         height: 300px;
 
@@ -115,7 +112,7 @@
         zoom: 0.7;
 
         top: 500px;
-        right: 550px;
+        right: 200px;
 
         height: 300px;
 
@@ -138,5 +135,11 @@
 
             filter: blur(20px);
         }
+    }
+
+    .chatContainer {
+        position: absolute;
+        bottom: 30px;
+        right: 30px;
     }
 }
