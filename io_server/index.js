@@ -150,6 +150,8 @@ io.on('connection', socket => {
             playStack: room.gameState.playStack,
             drawStack: room.gameState.drawStack.length
         })
+
+        io.to(socket.id).emit('update-users', room.users)
     })
 
     socket.on('play-card', card => {

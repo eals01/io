@@ -28,6 +28,7 @@ const CreateUser = () => {
 
     const submitHandler = () => {
         socket.emit('create-user', {name: name, image: image})
+        console.log(image)
         history.push('/lobby')
     }
 

@@ -5,141 +5,216 @@
     bottom: 50px;
 }
 
-.table {
-    position: relative;
-
+.tableContainer {
     display: flex;
-    align-items: center;
-    flex-direction: column;
+    justify-content: center;
 
     width: 100vw;
-    height: 1080px; 
+    height: 100vh;
 
-    .stacks {
-        zoom: 0.75;
+    background: rgb(87, 87, 87);
 
-        position: absolute;
-        top: 540px;
+    .table {
+        position: relative;
 
         display: flex;
-        flex-direction: row;
-        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
 
-        width: 450px;
+        width: 1600px;
+        height: 1080px; 
 
-        .stack {
-            width: 180px;
-            height: 300px;
+        background: rgba(0,0,0,0.1);
 
-            .card {
-                &:first-child {
-                    box-shadow: 0px 2px 6px 2px rgba(0,0,0,0.3);
+        &:before {
+            position: fixed;
+            top: 180px;
+
+            content: ' ';
+            display: block;
+            width: 950px;
+            height: 700px;
+            
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);;
+
+            filter: blur(300px);
+            transform: perspective(700px) rotateX(45deg);
+        }
+
+        .stacks {
+            zoom: 0.75;
+
+            position: absolute;
+            top: 540px;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            width: 450px;
+
+            .stack {
+                width: 180px;
+                height: 300px;
+
+                .card {
+                    &:first-child {
+                        box-shadow: 0px 2px 6px 2px rgba(0,0,0,0.3);
+                    }
+                }
+            }
+
+            .drawStack {
+                position: relative;
+
+                .card {
+                    box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.3);
+                    transform: perspective(700px) rotateX(45deg) rotateZ(15deg);
+                }
+            }
+
+            .playStack {
+                position: relative;
+                
+                .card {
+                    box-shadow: 0px 3px 2px 1px rgba(0,0,0,0.3);
                 }
             }
         }
 
-        .drawStack {
-            position: relative;
+        .hand {
+            position: absolute;
+            bottom: 60px;
+
+            height: 300px;
+
+            transform: perspective(500px) rotateX(-25deg);
 
             .card {
-                box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.3);
-                transform: perspective(700px) rotateX(45deg) rotateZ(15deg);
+                box-shadow: -12px 0px 6px -6px rgba(0,0,0,0.3);
+
+                &:first-child {
+                    box-shadow: 0px 0px 0px 0px transparent;
+                }
             }
         }
 
-        .playStack {
-            position: relative;
-            
+        .opponentHand {
+            position: absolute;
+
+            //transform: perspective(300px) rotateX(-5deg);
+
             .card {
-                box-shadow: 0px 3px 2px 1px rgba(0,0,0,0.3);
+                box-shadow: -12px 0px 6px -6px rgba(0,0,0,0.3);
+
+                &:first-child {
+                    box-shadow: 0px 0px 0px 0px transparent;
+                }
             }
         }
-    }
 
-    .hand {
-        position: absolute;
-        bottom: 60px;
+        .opponentHandLeft {
+            zoom: 0.7;
 
-        height: 300px;
+            top: 500px;
+            left: 200px;
 
-        transform: perspective(500px) rotateX(-10deg);
+            height: 300px;
 
-        .card {
-            box-shadow: -12px 0px 6px -6px rgba(0,0,0,0.3);
+            transform: perspective(900px) skew(-20deg) rotateY(35deg) rotateZ(-35deg);
+        }
 
-            &:first-child {
-                box-shadow: 0px 0px 0px 0px transparent;
+        .opponentHandMiddle {
+            zoom: 0.55;
+
+            top: 250px;
+
+            height: 300px;
+
+            transform: perspective(500px) rotateX(-10deg);
+        }
+
+        .opponentHandRight {
+            zoom: 0.7;
+
+            top: 500px;
+            right: 200px;
+
+            height: 300px;
+
+            transform: perspective(900px) skew(20deg) rotateY(-35deg) rotateZ(35deg);
+        }
+
+        .shadow {
+            &:after {
+                position: relative;
+                top: 360px;
+
+                content: ' ';
+                display: block;
+
+                width: 100%;
+                height: 10px;
+                border-radius: 50%;
+
+                background: rgba(0,0,0,0.5);
+
+                filter: blur(17px);
             }
         }
-    }
 
-    .opponentHand {
-        position: absolute;
+        .user {
+            position: absolute;
 
-        //transform: perspective(300px) rotateX(-5deg);
+            display: flex;
+            align-items: center;
+            flex-direction: column;
 
-        .card {
-            box-shadow: -12px 0px 6px -6px rgba(0,0,0,0.3);
+            width: 100px;
+            height: 150px;
 
-            &:first-child {
-                box-shadow: 0px 0px 0px 0px transparent;
+            img {
+                width: 100px;
+
+                image-rendering: pixelated;
+            }
+
+            span {
+                line-height: 50px;
+                font-size: 30px;
+                font-weight: 700;
+                font-family: 'Gloria Hallelujah', cursive;
             }
         }
-    }
 
-    .opponentHandLeft {
-        zoom: 0.7;
-
-        top: 500px;
-        left: 200px;
-
-        height: 300px;
-
-        //transform: perspective(900px) skew(-15deg) rotateY(45deg) rotateZ(-25deg);
-    }
-
-    .opponentHandMiddle {
-        zoom: 0.55;
-
-        top: 200px;
-
-        height: 300px;
-
-        //transform: perspective(500px) rotateX(-10deg);
-    }
-
-    .opponentHandRight {
-        zoom: 0.7;
-
-        top: 500px;
-        right: 200px;
-
-        height: 300px;
-
-        //transform: perspective(900px) skew(15deg) rotateY(-45deg) rotateZ(25deg);
-    }
-
-    .shadow {
-        &:after {
-            position: relative;
-            top: 340px;
-
-            content: ' ';
-            display: block;
-
-            width: 100%;
-            height: 40px;
-            border-radius: 50%;
-
-            background: rgba(0,0,0,0.2);
-
-            filter: blur(20px);
+        .player {
+            bottom: 60px;
+            left: 350px;
         }
-    }
 
-    .chatContainer {
-        position: absolute;
-        bottom: 30px;
-        right: 30px;
+        .opponent1 {
+            left: 60px;
+            top: 260px;
+        }
+
+        .opponent2 {
+            right: 500px;
+        }
+
+        .opponent3 {
+            right: 60px;
+            top: 260px;
+        }
+
+        .chatContainer {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+
+            .chatMessage {
+                color: white;
+            }
+        }
     }
 }
